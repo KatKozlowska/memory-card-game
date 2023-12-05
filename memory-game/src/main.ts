@@ -2,7 +2,8 @@ import "./styles.scss";
 
 const cardContainer = document.querySelector<HTMLElement>(".card__container");
 let animalCard = document.querySelectorAll<HTMLElement>(".card");
-const resetButton =  document.querySelector<HTMLButtonElement>("#reste-button");
+const resetButton =  document.querySelector<HTMLButtonElement>("#reset-button");
+let renderedCards;
 
 if (!cardContainer || !animalCard) {
   throw new Error ("issiue with selector of our container");
@@ -31,7 +32,7 @@ const cards: animal[] = [
  
 const getCardHTML = (cards: animal[]): string => {
   const cardHTML  = cards
-  .map (card => { return `<section class="card card__${card.species}" > 
+  .map (card => { return `<section class="card flip card__${card.species}" > 
   <img class="card__back-face" src="${card.backFace}">
   <img class="card__front-face" src="${card.frontFace}">
   </section>`;
@@ -55,7 +56,19 @@ return cards;
 
 const renderCard = () => {
   cardContainer.innerHTML = getCardHTML(shuffleCards([...cards]));
+  renderedCards = document.querySelectorAll<HTMLElement>(".card");
+  renderedCards.forEach ( card => card.addEventListener("click", flipCard))
 }
+
+
+function flipCard() {
+ this.classList.toggle("flip")
+}
+
+// const test = () => {
+//   alert ("hello")
+// }
+
 
 //loads cards when the game launches 
 //button to launch game 
@@ -97,6 +110,13 @@ document.addEventListener("DOMContentLoaded", renderCard);
 // RESET BUTTON 
 // - reshuffles the cards 
 // - flips all cards to back face 
+
+const reset = () => {
+  cardContainer.innerHTML = "";
+  renderCard();
+}
+
+resetButton?.addEventListener("click", reset)
 
 // END GAME 
 // - confetti on screen 

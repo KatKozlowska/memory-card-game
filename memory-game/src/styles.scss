@@ -1,19 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
+//font-family: 'Major Mono Display', monospace;
+h1{
+    font-family: 'Love Ya Like A Sister', cursive; 
+    color: rgb(244, 244, 244);
+    font-size: 50px;
+}
 
-body{
+main{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-image: linear-gradient(to right top, #008344, #26955a, #3ea870, #54ba87, #69cd9e, #6ed3a9, #73d8b4, #79debe, #70d7be, #69d0be, #63c9bd, #5ec2bc);
+    height:auto;
+    width:100vw;
 
-  }
+}
+
+div {
+    display: flex;
+}
+
+button {
+    margin: 20px 20px;
+    width: 100px;
+    height: 30px;
+    border-radius: 20px;
+    text-decoration: none;
+    border:none;
+    opacity: 80%;
+    font-family: Love Ya ;
+    font-size: 15px;
+}
 
 .card__container {
-    
-    display: flex;
-    flex-wrap: wrap;
+    width:100%;
+    display: grid;
+    grid-template-columns: repeat(4,1fr); 
+   
 };
-.card {
 
+
+
+
+.card {
+background-color: rgba(245, 245, 245, 0.332);
+border-radius: 50px;
 display:flex;
 justify-content: center;
 align-items: center;
@@ -29,6 +61,7 @@ transition: all 0.8s ease;
     width:200px; 
     position: absolute;
     backface-visibility: hidden;
+    
 }
 
 .card__back-face {
