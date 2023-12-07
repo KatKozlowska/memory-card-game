@@ -1,12 +1,16 @@
 import "./styles.scss";
 
 const cardContainer = document.querySelector<HTMLElement>(".card__container");
-let animalCard = document.querySelectorAll<HTMLElement>(".card");
 const resetButton =  document.querySelector<HTMLButtonElement>("#reset-button");
-let renderedCards;
 
-if (!cardContainer || !animalCard) {
-  throw new Error ("issiue with selector of our container");
+
+let renderedCards;
+let counter = 0;
+
+let selectedCards: HTMLElement[] = [];
+
+if (!cardContainer || !resetButton) {
+  throw new Error ("Issue with selector of our container");
 };
 
 type animal = {
@@ -25,8 +29,17 @@ const cards: animal[] = [
   {species: "racoon", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/racoon.png"},
   {species: "fox", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/fox.png"},
   {species: "fox", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/fox.png"},
-
+  {species: "squirrel", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/squirrel.png"},
+  {species: "squirrel", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/squirrel.png"},
+  {species: "hedgehog", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/hedgehog.png"},
+  {species: "hedgehog", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/hedgehog.png"},
+  {species: "deer", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/deer.png"},
+  {species: "owl", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/owl.png"},
+  {species: "deer", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/deer.png"},
+  {species: "owl", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/owl.png"},
+  
 ];
+
 
 //generates HTML for the cards from the array - this bit works
  
@@ -52,73 +65,82 @@ const shuffleCards = (cards: animal[]) => {
 return cards;
 } ;
 
-// renders cards from the shuffled array 
+const flipCard = (element: HTMLElement) => {
+ element.classList.toggle("flip")
+  };
+
+  // renders cards from the shuffled array
+
+const assignCard = (element: HTMLElement) => {
+  if ( selectedCards.length < 2 && element.classList.contains("flip")) {
+    flipCard(element);
+    selectedCards.push(element);
+  }
+}
+
+const checkCards = () => {
+  if (selectedCards.length != 2) {
+   return;
+  }
+  console.log(selectedCards)
+  if (selectedCards[0].classList.value == selectedCards[1].classList.value){
+    counter ++;
+  } else {
+    selectedCards.forEach(card => flipCard(card));
+  }
+  clear();
+
+}
+
+const clear = () => {
+  selectedCards = [];
+}
+
+const handleClick = async (event: Event) => {
+  const element = event.currentTarget as HTMLElement;
+  assignCard(element);
+  if( selectedCards.length == 2){
+  await new Promise(n => setTimeout(n,1500))
+  }
+  checkCards();
+  if(counter == 8) {
+    alert ("You have matched all the cards!")
+  }
+}
 
 const renderCard = () => {
   cardContainer.innerHTML = getCardHTML(shuffleCards([...cards]));
+
+  //this calls the flip function
   renderedCards = document.querySelectorAll<HTMLElement>(".card");
-  renderedCards.forEach ( card => card.addEventListener("click", flipCard))
+  renderedCards.forEach ( card => card.addEventListener("click", handleClick))
 }
-
-
-function flipCard() {
- this.classList.toggle("flip")
-}
-
-// const test = () => {
-//   alert ("hello")
-// }
 
 
 //loads cards when the game launches 
 //button to launch game 
 
-document.addEventListener("DOMContentLoaded", renderCard);
 
-//
-
-
-
-// FLIPPING CARDS 
-// - when a card is clicked card need to flip to face the front 
-// - the board needs to be locked to only allo wtwo cards to be flipped at once 
-// - you can only flip a card to the front face. You cant flip the same card in one turn twice 
-
-// const flipCard = (event: Event) => {
-//  if (event.target = animalCard ) {
-//   current.target.classList.add("flip")
-//  }
-// }
-// function flipCard() {
-//   const flip = document.getElementsByClassName(".card")
-//   console.log(flip);
-//   //flip.classList.toggle("flip")
-// }
-
-// google how to add event listener to dynamically created elements in javascript 
-
-//forEach.addEventListener("click", flipCard)
-
-
-//MATCHING CARDS 
-
-// - function that chechs if card 1 = card 2 match 
-// if card1 == card 2 they need to stay on screen 
-// if card1 != card 2 they flip back around 
-// if all cards are facing forward call END GAME 
 
 // RESET BUTTON 
 // - reshuffles the cards 
 // - flips all cards to back face 
 
+
+
 const reset = () => {
   cardContainer.innerHTML = "";
   renderCard();
+  counter = 0;
+  clear();
 }
 
-resetButton?.addEventListener("click", reset)
+
+resetButton.addEventListener("click", reset)
+
 
 // END GAME 
+//if matched = 
 // - confetti on screen 
 // - cards flip back around after 15s? 
 // - cards are reshuffled 

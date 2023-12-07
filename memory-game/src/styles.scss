@@ -1,10 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
 //font-family: 'Major Mono Display', monospace;
+
+*{
+    margin:0px;
+    padding:0px;
+}
+
+audio {
+    width:100px;
+}
 h1{
     font-family: 'Love Ya Like A Sister', cursive; 
-    color: rgb(244, 244, 244);
-    font-size: 50px;
-}
+    color: white;
+    font-size: 30px;
+
+};
 
 main{
     display: flex;
@@ -12,68 +22,165 @@ main{
     justify-content: center;
     align-items: center;
     background-image: linear-gradient(to right top, #008344, #26955a, #3ea870, #54ba87, #69cd9e, #6ed3a9, #73d8b4, #79debe, #70d7be, #69d0be, #63c9bd, #5ec2bc);
-    height:auto;
-    width:100vw;
-
-}
+    height:100vh;
+};
 
 div {
     display: flex;
-}
+};
 
-button {
+.button {
     margin: 20px 20px;
-    width: 100px;
+    width: 120px;
     height: 30px;
     border-radius: 20px;
     text-decoration: none;
     border:none;
-    opacity: 80%;
-    font-family: Love Ya ;
+    font-family: 'Love Ya Like A Sister';
     font-size: 15px;
-}
-
-.card__container {
-    width:100%;
-    display: grid;
-    grid-template-columns: repeat(4,1fr); 
-   
+    &:hover {
+        cursor:pointer;
+        border: 1px solid grey;
+    }
 };
 
-
-
+.card__container {
+    margin:30px 30px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr); 
+    border:rgba(255, 255, 255, 0.369) solid 2px ;
+    border-radius: 10px;
+};
 
 .card {
-background-color: rgba(245, 245, 245, 0.332);
-border-radius: 50px;
-display:flex;
-justify-content: center;
-align-items: center;
-width: 250px;
-height:250px;
-margin: 10px;
-transform-style: preserve-3d;
-transition: all 0.8s ease; 
-
+    
+    background-color: rgba(245, 245, 245, 0.501);
+    border-radius: 5px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height:60px;
+    margin: 10px;
+    transform-style: preserve-3d;
+    transition: all 0.8s ease; 
 };
  
 .card__front-face {
-    width:200px; 
+    width:50px; 
     position: absolute;
     backface-visibility: hidden;
-    
-}
+};
 
 .card__back-face {
-    width:200px;
-    height:200px;
+    width:50px;
+    height:50px;
     border-radius: 50%;
     position:absolute;
     transform: rotateY(180deg);
     backface-visibility: hidden;
-}
+};
 
 .flip {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg); 
+};
+
+
+
+@media screen and (min-width :768px){
+
+    h1{
+        
+        font-size: 50px;
+    };
+
+    .button {
+        margin: 20px;
+        font-size: 15px;
+    };
+
+
+
+    .card {
+        width: 120px;
+        height:120px;
+     
+    };
+
+    .card__front-face {
+        width:100px;
+    };
     
-}
+    .card__back-face {
+        width:100px;
+        height:100px;
+    };
+    
+   
+
+};
+    
+@media screen and (min-width :1024px){
+
+    h1{
+        
+        font-size: 50px;
+    };
+
+    .button {
+        margin: 10px 50px;
+        font-size: 20px;
+        width:150px;
+    };
+    .card__container {
+        margin:5px;
+       
+    };
+
+    .card {
+        width: 200px;
+        height:160px;
+    };
+
+    .card__front-face {
+        width:140px;
+    };
+    
+    .card__back-face {
+        width:140px;
+        height:140px;
+    };
+    
+
+};
+
+@media screen and (min-width :1440px){
+
+    h1{
+        
+        font-size: 60px;
+    };
+
+   
+    .card__container {
+        margin:5px; 
+    };
+
+    .card {
+        width: 250px;
+        height:170px;
+    };
+
+    .card__front-face {
+        width:150px;
+    };
+    
+    .card__back-face {
+        width:150px;
+        height:150px;
+    };
+    
+};
+
+
+
