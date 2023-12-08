@@ -1,47 +1,18 @@
 import "./styles.scss";
+import confetti , {Options} from "canvas-confetti";
+import {cards as cards} from "./data/cards"
 
 const cardContainer = document.querySelector<HTMLElement>(".card__container");
 const resetButton =  document.querySelector<HTMLButtonElement>("#reset-button");
-
-
 let renderedCards;
 let counter = 0;
-
 let selectedCards: HTMLElement[] = [];
 
 if (!cardContainer || !resetButton) {
   throw new Error ("Issue with selector of our container");
 };
 
-type animal = {
-  species: string; 
-  frontFace:string;
-  backFace:string;
-}
-
-
-const cards: animal[] = [
-  {species: "bear",  backFace:"./src/references/Untitled_Artwork.png",frontFace:"./src/references/bear.png",},
-  {species: "bear",  backFace:"./src/references/Untitled_Artwork.png",frontFace:"./src/references/bear.png",},
-  {species: "rabbit", backFace:"./src/references/Untitled_Artwork.png",frontFace:"./src/references/rabbit.png"},
-  {species: "rabbit", backFace:"./src/references/Untitled_Artwork.png", frontFace:"./src/references/rabbit.png"},
-  {species: "racoon", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/racoon.png"},
-  {species: "racoon", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/racoon.png"},
-  {species: "fox", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/fox.png"},
-  {species: "fox", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/fox.png"},
-  {species: "squirrel", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/squirrel.png"},
-  {species: "squirrel", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/squirrel.png"},
-  {species: "hedgehog", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/hedgehog.png"},
-  {species: "hedgehog", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/hedgehog.png"},
-  {species: "deer", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/deer.png"},
-  {species: "owl", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/owl.png"},
-  {species: "deer", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/deer.png"},
-  {species: "owl", backFace:"./src/references/Untitled_Artwork.png", frontFace: "./src/references/owl.png"},
-  
-];
-
-
-//generates HTML for the cards from the array - this bit works
+//generates HTML for the cards from the array 
  
 const getCardHTML = (cards: animal[]): string => {
   const cardHTML  = cards
@@ -54,7 +25,7 @@ const getCardHTML = (cards: animal[]): string => {
   return cardHTML;   
 };
 
-//function which randomises the array every time
+// function which shuffles the card every time a new game is started 
 
 const shuffleCards = (cards: animal[]) => {
   let shuffle = cards.length;
@@ -65,24 +36,28 @@ const shuffleCards = (cards: animal[]) => {
 return cards;
 } ;
 
+//function which handles the flipping of the cards 
+
 const flipCard = (element: HTMLElement) => {
  element.classList.toggle("flip")
-  };
-
-  // renders cards from the shuffled array
+};
+// function which which limits you to two cards and only pressing each card once 
 
 const assignCard = (element: HTMLElement) => {
   if ( selectedCards.length < 2 && element.classList.contains("flip")) {
     flipCard(element);
     selectedCards.push(element);
   }
-}
+};
+
+// function that checks if you have two cards.
+//if two cards are present it checks card1 against card2
+//if cards match counter is incremented 
 
 const checkCards = () => {
   if (selectedCards.length != 2) {
    return;
-  }
-  console.log(selectedCards)
+  };
   if (selectedCards[0].classList.value == selectedCards[1].classList.value){
     counter ++;
   } else {
@@ -92,9 +67,13 @@ const checkCards = () => {
 
 }
 
+// flips selected cards back around if they are not the same 
+
 const clear = () => {
   selectedCards = [];
 }
+
+// when cards are cicked and dont match adds a delay to the card flip 
 
 const handleClick = async (event: Event) => {
   const element = event.currentTarget as HTMLElement;
@@ -104,43 +83,54 @@ const handleClick = async (event: Event) => {
   }
   checkCards();
   if(counter == 8) {
-    alert ("You have matched all the cards!")
+    fireConfetti();
+    alert ("You have matched all the cards!");
   }
 }
+
+// renders shuffled cards
 
 const renderCard = () => {
   cardContainer.innerHTML = getCardHTML(shuffleCards([...cards]));
 
-  //this calls the flip function
+//calls the flip function
+
   renderedCards = document.querySelectorAll<HTMLElement>(".card");
   renderedCards.forEach ( card => card.addEventListener("click", handleClick))
-}
+};
 
+//adds confetti 
 
-//loads cards when the game launches 
-//button to launch game 
+const fireConfetti = () => {
+  const options:Options = {
+  particleCount:1200,
+  startVelocity:100,
+  spread:180,
+  angle: 90,
+  colors:[
+  "#DFFF00", "#E4D00A",
+  "#40826D", "#9FE2BF",
+  "#FF5733", "#0000b2",
+  "#9999ff", "#000066"],
+  drift:1,
+  ticks: 400,
+  origin: {
+    x: 0.5,
+    y:1,
+  }
+};
+  confetti(options);
+};
 
-
-
-// RESET BUTTON 
-// - reshuffles the cards 
-// - flips all cards to back face 
-
-
-
+// stsrts new game when button pressed
 const reset = () => {
   cardContainer.innerHTML = "";
   renderCard();
   counter = 0;
   clear();
-}
+};
 
-
+//button event listener
 resetButton.addEventListener("click", reset)
 
 
-// END GAME 
-//if matched = 
-// - confetti on screen 
-// - cards flip back around after 15s? 
-// - cards are reshuffled 
