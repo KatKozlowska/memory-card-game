@@ -84,7 +84,7 @@ const handleClick = async (event: Event) => {
   checkCards();
   if(counter == 8) {
     fireConfetti();
-    alert ("You have matched all the cards!");
+    // alert ("You have matched all the cards!");
   }
 }
 

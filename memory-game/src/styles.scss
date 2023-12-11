@@ -64,6 +64,9 @@ div {
     margin: 10px;
     transform-style: preserve-3d;
     transition: all 0.8s ease; 
+    &:hover {
+        background-color: white;
+    }
 };
  
 .card__front-face {
