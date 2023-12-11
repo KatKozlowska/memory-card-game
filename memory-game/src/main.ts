@@ -79,12 +79,12 @@ const handleClick = async (event: Event) => {
   const element = event.currentTarget as HTMLElement;
   assignCard(element);
   if( selectedCards.length == 2){
-  await new Promise(n => setTimeout(n,1500))
+  await new Promise(n => setTimeout(n,1000))
   }
   checkCards();
   if(counter == 8) {
     fireConfetti();
-    // alert ("You have matched all the cards!");
+    alert ("You have matched all the cards!");
   }
 }
 
